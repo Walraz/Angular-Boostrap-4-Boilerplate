@@ -1,44 +1,33 @@
-var $           = require('jquery');
-var bootstrap   = require('bootstrap4-plus-jquery');
 var angular     = require('angular');
 var route       = require('angular-route');
-var templates   = require('./templates');
-
-var greet       = require('./greeting');
-
-let siteName    = 'My Boilerplate';
+var $           = require('jquery');
+require('bootstrap4-plus-jquery');
+require('./templates');
 
 angular.module('app', [route, 'templates']);
 
-angular.module('app').config(['$routeProvider','$locationProvider', function($routeProvider, $locationProvider) {
+angular
+  .module('app')
+  .config(config);
+
+function config($routeProvider, $locationProvider) {
+  
   $routeProvider
-    .when('/', {
-      templateUrl: 'home.html',
-      controller: 'HomeCtrl'
-    })
-    .when('/about', {
-      templateUrl: 'about.html',
-      controller: 'AboutCtrl'
-    });
-    $locationProvider.html5Mode(true);
-}]);
 
-angular.module('app').controller('MainCtrl', ['$scope', function($scope){
+  .when('/', {
+    templateUrl: 'home.html',
+    controller: 'HomeController',
+    controllerAs: 'vm'
+  })
 
-}]);
+  .when('/about', {
+    templateUrl: 'about.html',
+    controller: 'AboutController',
+    controllerAs: 'vm'
+  });
 
-angular.module('app').controller('HomeCtrl', ['$rootScope', function($rootScope){
-  $rootScope.pageTitle = siteName + ' | Home';
-}]);
+  $locationProvider.html5Mode(true);
+}
 
-angular.module('app').controller('AboutCtrl', ['$rootScope', function($rootScope){
-  $rootScope.pageTitle = siteName + ' | About';
-}]);
-
-$('h1').html(greet('Rasmus'));
-let lol = 'JavaScript Working';
-var fn = (logThis) => {
-  console.log(logThis);
-};
-
-fn(lol);
+require('./controllers/home.controller');
+require('./controllers/about.controller');

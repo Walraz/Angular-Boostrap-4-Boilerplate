@@ -18,10 +18,11 @@ gulp.task('js', function(){
     })
     .transform('babelify', {presets: ['es2015']})
     .bundle()
+    .pipe(source('main.js'))
+    .pipe(load.streamify(load.ngAnnotate({add: true})))
     .on('error', function(e){
       load.util.log(e);
       })
-    .pipe(source('main.js'))
     .pipe(load.if(production, load.streamify(load.uglify())))
     .pipe(gulp.dest('build/js'))
     .pipe(browserSync.stream());
